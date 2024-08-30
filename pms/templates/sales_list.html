@@ -1,0 +1,61 @@
+{% extends "dashboard.html" %}
+{% load static %}
+
+{% block dash %}
+
+{% endblock %}
+
+{% block dash3 %}
+<style>
+    .sales-list {
+        margin: 20px 0;
+    }
+
+    .sales-date {
+        margin-top: 20px;
+    }
+
+    .sales-item {
+        list-style: none;
+        padding: 8px 16px;
+        border: 1px solid #dee2e6;
+        margin-bottom: 8px;
+        border-radius: 4px;
+        background-color: #f8f9fa;
+    }
+
+    .sales-item a {
+        text-decoration: none;
+        color: #007bff;
+    }
+
+    .sales-item a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Sales List</h5>
+
+                <div class="sales-list">
+                    {% for sale_date, sales in sales_by_date.items %}
+                        <div class="sales-date">
+                            <h2>{{ sale_date }}</h2>
+                            <ul>
+                                {% for sale in sales %}
+                                    <li class="sales-item">
+                                        <a href="{% url 'sale_detail' sale.pk %}">Sale by {{ sale.pharmacist.username }} on {{ sale.sale_date }} - Total: GHC{{ sale.total_amount }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock dash3 %}

@@ -1,0 +1,107 @@
+{% extends "dashboard.html" %}
+{% load static %}
+
+{% block dash %}
+<h2>Expiring Drugs in the Next 60 Days</h2>
+{% endblock %}
+
+{% block dash3 %}
+<style>
+    .table-container {
+        margin: 20px 0;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: left;
+        border: 1px solid #dee2e6;
+    }
+
+    th {
+        background-color: #f8f9fa;
+        font-weight: bold;
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    .alert {
+        margin-bottom: 20px;
+    }
+
+    .btn-close {
+        margin-left: 10px;
+    }
+
+    .btn-print {
+        margin-bottom: 20px;
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Expiring Drugs in the Next 60 Days</h5>
+                
+                <!-- Display messages -->
+                {% if messages %}
+                <div class="alert-container">
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <button class="btn btn-primary btn-print" onclick="window.print()">Print</button>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Drug Name</th>
+                                <th>Description</th>
+                                <th>Generic Name</th>
+                                <th>Brand Name</th>
+                                <th>Batch</th>
+                                <th>Category</th>
+                                <th>Packaging Type</th>
+                                <th>Strength</th>
+                                <th>Stock Quantity</th>
+                                <th>Expiry Date</th>
+                                <th>Supplier</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in drugs_with_stock %}
+                            <tr>
+                                <td>{{ item.drug.name }}</td>
+                                <td>{{ item.drug.description }}</td>
+                                <td>{{ item.drug.generic_name }}</td>
+                                <td>{{ item.drug.brand_name }}</td>
+                                <td>{{ item.drug.batch }}</td>
+                                <td>{{ item.drug.category.name }}</td>
+                                <td>{{ item.drug.packaging_type.type }}</td>
+                                <td>{{ item.drug.strength }}</td>
+                                <td>{{ item.stock_quantity }}</td>
+                                <td>{{ item.drug.expiry_date }}</td>
+                                <td>{{ item.drug.supplier.name }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock dash3 %}

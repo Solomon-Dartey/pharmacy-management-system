@@ -1,0 +1,69 @@
+{% extends "dashboard.html" %}
+{% load static crispy_forms_tags %}
+
+{% block dash %}
+
+{% endblock %}
+
+
+{% block dash3 %}
+<style>
+    .form-control {
+        border: 1px solid #ced4da; /* Ensures border is visible */
+        border-radius: 0.25rem; /* Ensures border radius is applied */
+    }
+
+    .form-control:focus {
+        border-color: #86b7fe; /* Ensures border color on focus */
+        box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25); /* Ensures box-shadow on focus */
+    }
+
+    .form-select {
+        border: 1px solid #ced4da; /* Ensures border is visible */
+        border-radius: 0.25rem; /* Ensures border radius is applied */
+    }
+
+    .form-select:focus {
+        border-color: #86b7fe; /* Ensures border color on focus */
+        box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25); /* Ensures box-shadow on focus */
+    }
+</style>
+<div class="row">
+    <div class="col-lg-9">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Edit Drug Details</h5>
+                
+                <!-- Display messages -->
+                {% if messages %}
+                <div>
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                <!-- General Form Elements -->
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row mb-3">
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ form|crispy }}
+                           
+                        </form>
+                      
+                    </div>
+
+                    <button type="submit" class="btn btn-outline-primary">Save changes</button>
+                </form>
+                <!-- End General Form Elements -->
+            </div>
+            <a href="{% url 'stock_list' %}" class="btn btn-outline-primary">Back to Drug List</a>
+        </div>
+    </div>
+</div>
+{% endblock dash3 %}

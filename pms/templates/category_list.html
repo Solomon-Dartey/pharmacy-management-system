@@ -1,0 +1,155 @@
+{% extends "dashboard.html" %}
+{% load static crispy_forms_tags %}
+
+{% block dash %}
+
+{% endblock %}
+
+{% block dash3 %}
+<style>
+    .table-container {
+        margin: 20px 0;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: left;
+        border: 1px solid #dee2e6;
+    }
+
+    th {
+        background-color: #f8f9fa;
+        font-weight: bold;
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin: 20px 0;
+    }
+
+    .pagination a, .pagination button {
+        padding: 8px 16px;
+        margin: 0 4px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        color: #007bff;
+        text-decoration: none;
+        background-color: #fff;
+        cursor: pointer;
+    }
+
+    .pagination a:hover, .pagination button:hover {
+        background-color: #f8f9fa;
+    }
+
+    .pagination .current {
+        padding: 8px 16px;
+        margin: 0 4px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .alert {
+        margin-bottom: 20px;
+    }
+
+    .action-links a {
+        margin-right: 10px;
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    .action-links a:hover {
+        text-decoration: underline;
+    }
+
+    .btn-close {
+        margin-left: 10px;
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Category List</h5>
+                
+                <!-- Display messages -->
+                {% if messages %}
+                <div class="alert-container">
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                <div class="action-links">
+                    <a href="{% url 'category_create' %}" class="btn btn-primary">Add Category</a>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for category in page_obj %}
+                            <tr>
+                                <td>{{ category.name }}</td>
+                                <td>{{ category.description }}</td>
+                                <td>
+                                    <a href="{% url 'category_update' category.pk %}" class="btn btn-warning btn-sm">Edit</a>
+                                    <form action="{% url 'category_delete' category.pk %}" method="post" style="display:inline;">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Pagination -->
+                <div class="pagination">
+                    <span class="step-links">
+                        {% if page_obj.has_previous %}
+                            <a href="?page=1">&laquo; First</a>
+                            <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                        {% endif %}
+        
+                        <span class="current">
+                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                        </span>
+        
+                        {% if page_obj.has_next %}
+                            <a href="?page={{ page_obj.next_page_number }}">Next</a>
+                            <a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+                        {% endif %}
+                    </span>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock dash3 %}

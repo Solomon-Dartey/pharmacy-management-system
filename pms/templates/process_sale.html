@@ -1,0 +1,13 @@
+
+  <h2>Confirm Sale</h2>
+  <ul>
+    {% for item in cart_items %}
+      <li>{{ item.drug.name }} - {{ item.quantity }} units</li>
+    {% endfor %}
+  </ul>
+  <p>Total Price: {{ total_price }}</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Confirm Sale</button>
+  </form>
+

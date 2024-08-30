@@ -1,0 +1,170 @@
+{% extends "dashboard.html" %}
+{% load static crispy_forms_tags %}
+
+{% block dash %}
+<h2>Stock Details</h2>
+{% endblock %}
+
+{% block dash3 %}
+<style>
+    .table-container {
+        margin: 20px 0;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: left;
+        border: 1px solid #dee2e6;
+    }
+
+    th {
+        background-color: #f8f9fa;
+        font-weight: bold;
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin: 20px 0;
+    }
+
+    .pagination a, .pagination button {
+        padding: 8px 16px;
+        margin: 0 4px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        color: #007bff;
+        text-decoration: none;
+        background-color: #fff;
+        cursor: pointer;
+    }
+
+    .pagination a:hover, .pagination button:hover {
+        background-color: #f8f9fa;
+    }
+
+    .pagination .current {
+        padding: 8px 16px;
+        margin: 0 4px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .action-links a {
+        margin-right: 10px;
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    .action-links a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Stock Details</h5>
+                
+                <div class="table-container">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th>Name</th>
+                                <td>{{ stock.drug.name }}</td>
+                            </tr>
+                            <tr>
+                                <th>Description</th>
+                                <td>{{ stock.drug.description }}</td>
+                            </tr>
+                            <tr>
+                                <th>Quantity</th>
+                                <td>{{ stock.quantity }}</td>
+                            </tr>
+                            <tr>
+                                <th>Unit Price</th>
+                                <td>{{ stock.drug.unit_price }}</td>
+                            </tr>
+                            <tr>
+                                <th>Manufacturing Date</th>
+                                <td>{{ stock.drug.manufacturing_date|date:"Y-m-d" }}</td>
+                            </tr>
+                            <tr>
+                                <th>Expiry Date</th>
+                                <td>{{ stock.drug.expiry_date|date:"Y-m-d" }}</td>
+                            </tr>
+                            <tr>
+                                <th>Supplier</th>
+                                <td>{{ stock.drug.supplier.name }}</td>
+                            </tr>
+                            <tr>
+                                <th>Generic Name</th>
+                                <td>{{ stock.drug.generic_name }}</td>
+                            </tr>
+                            <tr>
+                                <th>Brand Name</th>
+                                <td>{{ stock.drug.brand_name }}</td>
+                            </tr>
+                            <tr>
+                                <th>Batch</th>
+                                <td>{{ stock.drug.batch }}</td>
+                            </tr>
+                            <tr>
+                                <th>Category</th>
+                                <td>{{ stock.drug.category.name }}</td>
+                            </tr>
+                            <tr>
+                                <th>Packaging Type</th>
+                                <td>{{ stock.drug.packaging_type.type }}</td>
+                            </tr>
+                            <tr>
+                                <th>Strength</th>
+                                <td>{{ stock.drug.strength }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="action-links">
+                    <a href="{% url 'drug_update' stock.pk %}" class="btn btn-primary">Edit</a>
+                    <a href="{% url 'stock_list' %}" class="btn btn-secondary">Back to Stock List</a>
+                </div>
+                
+                <!-- Pagination -->
+                {% if page_obj %}
+                <div class="pagination">
+                    <span class="step-links">
+                        {% if page_obj.has_previous %}
+                            <a href="?page=1">&laquo; First</a>
+                            <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                        {% endif %}
+        
+                        <span class="current">
+                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                        </span>
+        
+                        {% if page_obj.has_next %}
+                            <a href="?page={{ page_obj.next_page_number }}">Next</a>
+                            <a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+                        {% endif %}
+                    </span>
+                </div>
+                {% endif %}
+                
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock dash3 %}

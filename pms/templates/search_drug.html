@@ -1,0 +1,117 @@
+{% extends "dashboard.html" %}
+{% load static crispy_forms_tags %}
+
+{% block dash %}
+
+{% endblock %}
+
+{% block dash3 %}
+<style>
+    .search-form {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .search-form input {
+        flex: 1 1 20%; /* Adjust the percentage based on how many fields you have */
+        min-width: 150px; /* Ensures inputs don't get too small */
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        padding: 10px;
+    }
+
+    .search-form button {
+        flex: 1 1 10%;
+        min-width: 100px;
+        margin-top: 10px;
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin: 20px 0;
+    }
+
+    .pagination a, .pagination button {
+        padding: 8px 16px;
+        margin: 0 4px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        color: #007bff;
+        text-decoration: none;
+        background-color: #fff;
+        cursor: pointer;
+    }
+
+    .pagination a:hover, .pagination button:hover {
+        background-color: #f8f9fa;
+    }
+
+    .pagination .current {
+        padding: 8px 16px;
+        margin: 0 4px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .alert {
+        margin-bottom: 20px;
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-9">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Search for Drugs</h5>
+
+                <!-- Search Form -->
+                <form method="get" action="{% url 'search_drug' %}" class="search-form">
+                    <input type="text" name="name" class="form-control" placeholder="Search by name" value="{{ name_query }}">
+                    <input type="text" name="generic_name" class="form-control" placeholder="Search by generic name" value="{{ generic_query }}">
+                    <input type="text" name="brand_name" class="form-control" placeholder="Search by brand name" value="{{ brand_query }}">
+                    <input type="text" name="description" class="form-control" placeholder="Search by description" value="{{ description_query }}">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </form>
+
+                {% if page_obj %}
+                <h4 class="mt-4">Available Medicines:</h4>
+                <ul>
+                    {% for drug in page_obj %}
+                    <li>
+                        <strong>{{ drug.name }}</strong> - {{ drug.generic_name }} - {{ drug.brand_name }}
+                        <p>{{ drug.description|truncatewords:100 }}</p>
+                        <a href="{% url 'add_to_cart' drug.id %}" class="btn btn-success">Add to Cart</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+
+                <div class="pagination">
+                    <span class="step-links">
+                        {% if page_obj.has_previous %}
+                            <a href="?page=1{% if name_query %}&name={{ name_query }}{% endif %}{% if generic_query %}&generic_name={{ generic_query }}{% endif %}{% if brand_query %}&brand_name={{ brand_query }}{% endif %}{% if description_query %}&description={{ description_query }}{% endif %}">&laquo; First</a>
+                            <a href="?page={{ page_obj.previous_page_number }}{% if name_query %}&name={{ name_query }}{% endif %}{% if generic_query %}&generic_name={{ generic_query }}{% endif %}{% if brand_query %}&brand_name={{ brand_query }}{% endif %}{% if description_query %}&description={{ description_query }}{% endif %}">Previous</a>
+                        {% endif %}
+
+                        <span class="current">
+                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                        </span>
+
+                        {% if page_obj.has_next %}
+                            <a href="?page={{ page_obj.next_page_number }}{% if name_query %}&name={{ name_query }}{% endif %}{% if generic_query %}&generic_name={{ generic_query }}{% endif %}{% if brand_query %}&brand_name={{ brand_query }}{% endif %}{% if description_query %}&description={{ description_query }}{% endif %}">Next</a>
+                            <a href="?page={{ page_obj.paginator.num_pages }}{% if name_query %}&name={{ name_query }}{% endif %}{% if generic_query %}&generic_name={{ generic_query }}{% endif %}{% if brand_query %}&brand_name={{ brand_query }}{% endif %}{% if description_query %}&description={{ description_query }}{% endif %}">Last &raquo;</a>
+                        {% endif %}
+                    </span>
+                </div>
+                {% else %}
+                <p>No drugs found.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock dash3 %}

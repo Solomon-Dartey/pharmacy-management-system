@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+<a href="{% url 'add_drug' %}">Add Medicine</a>pppppppppppp
+<a href="{% url 'expiring_drugs' %}">View Expiring Drugs</a>
+<a href="{% url 'supplier_list' %}">View Suppliers</a>
+<a href="{% url 'category_list' %}">View Categories</a>
+<a href="{% url 'packaging_type_list' %}">View Packaging Types</a>
+<a href="{% url 'stock_list' %}">stock lists</a>ppppppppppppppppppppppp
+<a href="{% url 'search_drug' %}">search_drug</a>
+<a href="{% url 'register' %}">Register</a>
+<a href="{% url 'login' %}">Login</a>
+<a href="{% url 'logout' %}">Logout</a>
+<a href="{% url 'change_password' %}">change password</a>
+<a href="{% url 'sales_list' %}">sales_list</a>
+
+    <h1>Dashboard</h1>
+    <div>
+        <h2>Recent Sales</h2>
+        <ul>
+            {% for sale in recent_sales %}
+                <li>
+                    <a href="{% url 'sale_detail' sale.id %}">
+                        {{ sale.sale_date }} - Total: {{ sale.total_amount }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div>
+        <h2>Low Stock Alerts</h2>
+        <ul>
+            {% for alert in low_stock_alerts %}
+                <li>{{ alert.message }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div>
+        <h2>Total Sales: {{ total_sales }}</h2>
+    </div>
+</body>
+</html>
